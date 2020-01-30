@@ -34,13 +34,6 @@ func main() {
 		}
 	}
 	fmt.Println("Concurrent time", time.Since(start))
-	start = time.Now()
-	for _, m1 := range matricesA {
-		for _, m2 := range matricesB {
-			m1.MultConcRows(m2)
-		}
-	}
-	fmt.Println("Conccurrent with only rows time", time.Since(start))
 }
 
 type Matrix [][]float64
@@ -97,29 +90,6 @@ func (a Matrix) MultSeq(b Matrix) Matrix {
 }
 
 func (a Matrix) MultConc(b Matrix) Matrix {
-	n := len(a)
-	m := len(a[0])
-	k := len(b[0])
-	res := NewMatrix(n, k)
-	var wg sync.WaitGroup
-	wg.Add(n * k)
-	for i := 0; i < n; i++ {
-		for j := 0; j < k; j++ {
-			go func(rowIndex, colIndex int) {
-				sum := 0.0
-				for pos := 0; pos < m; pos++ {
-					sum += a[rowIndex][pos] * b[pos][colIndex]
-				}
-				res[rowIndex][colIndex] = sum
-				wg.Done()
-			}(i, j)
-		}
-	}
-	wg.Wait()
-	return res
-}
-
-func (a Matrix) MultConcRows(b Matrix) Matrix {
 	n := len(a)
 	m := len(a[0])
 	k := len(b[0])

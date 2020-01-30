@@ -58,11 +58,11 @@ func (h RandomTemplateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 }
 
 func main() {
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	http.HandleFunc("/random/", handleRandomQuote)
 	randomTemplate := NewRandomTemplateHandler()
 	http.Handle("/random-template/", randomTemplate)
-	addr := ":8080"
+	addr := "localhost:8080"
 	log.Printf("Running server on %s\n", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

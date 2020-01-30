@@ -121,7 +121,7 @@ func main() {
 	http.Handle("/random-template/", randomTemplate)
 	filterHandler := NewQuoteFilterHandler([]string{"alan", "turing"})
 	http.Handle("/filter/", filterHandler)
-	addr := ":8080"
+	addr := "localhost:8080"
 	log.Printf("Running server on %s\n", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
